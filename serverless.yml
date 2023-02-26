@@ -6,6 +6,10 @@ provider:
   name: aws
   runtime: python3.9
   region: us-east-1
+  ecr:
+    images:
+      appimage:
+        path: ./
   environment:
     JUPYTER_NOTEBOOK_SUBMISSION_BUCKET: "serverless-jupyter-notebook-submission-bucket"
     REGION_NAME: "us-east-1"
@@ -25,3 +29,6 @@ functions:
           bucket: ${self:provider.environment.JUPYTER_NOTEBOOK_SUBMISSION_BUCKET}
           event: s3:ObjectCreated:*
           existing: true
+  get_tomatoes:
+    image:
+      name: appimage

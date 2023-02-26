@@ -20,6 +20,8 @@ def handleS3Upload(event, context):
 
     for file in filesUploaded:
         fileName = file["s3"]["object"]["key"]
+        fileSize = file["s3"]["object"]["size"];
         print(fileName)
+        print(fileSize)
 
     return(fileName)
