@@ -22,13 +22,13 @@ provider:
 functions:
   hello:
     handler: handler.hello
-  handleS3Upload:
-    handler: handler.handleS3Upload
+  get_tomatoes:
+    image:
+      name: appimage
     events:
       - s3:
           bucket: ${self:provider.environment.JUPYTER_NOTEBOOK_SUBMISSION_BUCKET}
           event: s3:ObjectCreated:*
           existing: true
-  get_tomatoes:
-    image:
-      name: appimage
+          rules:
+            - suffix: .ipynb
