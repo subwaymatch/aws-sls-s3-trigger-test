@@ -1,5 +1,13 @@
+boto3
+plotly
 pandas
 numpy
 nbformat
 nbconvert
 black
+statsmodels
+scikit-learn
+matplotlib
+seaborn
+scipy
+bokeh

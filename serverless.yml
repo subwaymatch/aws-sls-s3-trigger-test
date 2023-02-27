@@ -12,6 +12,7 @@ provider:
         path: ./
   environment:
     JUPYTER_NOTEBOOK_SUBMISSION_BUCKET: "serverless-jupyter-notebook-submission-bucket"
+    JUPYTER_NOTEBOOK_GRADED_BUCKET: "serverless-jupyter-notebook-graded-bucket"
     REGION_NAME: "us-east-1"
   iamRoleStatements:
     - Effect: Allow
@@ -22,7 +23,7 @@ provider:
 functions:
   hello:
     handler: handler.hello
-  get_tomatoes:
+  grade_S3_uploaded_notebook:
     image:
       name: appimage
     events:
@@ -32,3 +33,5 @@ functions:
           existing: true
           rules:
             - suffix: .ipynb
+    memorySize: 4096 # 4 GB to run Jupyter notebooks
+    timeout: 600 # 20 minutes timeout
