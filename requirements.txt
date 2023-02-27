@@ -2,8 +2,11 @@ boto3
 plotly
 pandas
 numpy
+ipython
+ipykernel
 nbformat
 nbconvert
+tabulate
 black
 statsmodels
 scikit-learn

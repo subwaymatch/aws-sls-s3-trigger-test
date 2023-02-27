@@ -8,7 +8,7 @@ provider:
   region: us-east-1
   ecr:
     images:
-      appimage:
+      lambdagrader-image:
         path: ./
   environment:
     JUPYTER_NOTEBOOK_SUBMISSION_BUCKET: "serverless-jupyter-notebook-submission-bucket"
@@ -25,7 +25,7 @@ functions:
     handler: handler.hello
   grade_S3_uploaded_notebook:
     image:
-      name: appimage
+      name: lambdagrader-image
     events:
       - s3:
           bucket: ${self:provider.environment.JUPYTER_NOTEBOOK_SUBMISSION_BUCKET}
@@ -34,4 +34,4 @@ functions:
           rules:
             - suffix: .ipynb
     memorySize: 4096 # 4 GB to run Jupyter notebooks
-    timeout: 600 # 20 minutes timeout
+    timeout: 900 # 15 minutes timeout

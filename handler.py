@@ -4,7 +4,7 @@ import boto3
 import os
 
 def hello(event, context):
-    # LambdaContext Object: https://docs.aws.amazon.com/lambda/latest/dg/nodejs-context.html
+    # LambdaContext Object: https://docs.aws.amazon.com/lambda/latest/dg/python-context.html
 
     bucket = os.environ["JUPYTER_NOTEBOOK_SUBMISSION_BUCKET"]
     region_name = os.environ["REGION_NAME"]

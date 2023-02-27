@@ -1,6 +1,6 @@
 # LambdaGrader After File Code
 # REMOVE_IN_HTML_OUTPUT
-grader_output_file_name = 'lambdagrader-result.json'
+grader_output_file_name = '/tmp/lambdagrader-result.json'
 grading_end_time = datetime.datetime.now(datetime.timezone.utc)
 
 _graded_result['grading_finished_at'] = grading_end_time.strftime("%Y-%m-%d %I:%M %p %Z")
