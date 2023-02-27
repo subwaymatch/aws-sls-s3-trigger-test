@@ -1,10 +1,16 @@
 # LambdaGrader Serverless Framework Service
 
+This project is a serverless implementation of the [LambdaGrader](https://github.com/subwaymatch/lambdagrader) project.
+
+## Overview
+
+This project aims to build a Jupyter notebook autograder that runs in a serverless environment. A single lambda invocation grades one Jupyter notebook. Because AWS supports up to 1,000 concurrent executions by default, grading hundreds of submissions can be done simultaneously. The 1,000 concurrent execution limit can also be increased by request.
+
 ## Usage
 
 ### Deployment
 
-In order to deploy the example, you need to run the following command:
+In order to deploy this service, you need to run the following command:
 
 ```
 $ serverless deploy
@@ -13,12 +19,12 @@ $ serverless deploy
 After running deploy, you should see output similar to:
 
 ```bash
-Deploying aws-python-project to stage dev (us-east-1)
+Deploying sls-lambdagrader to stage dev (us-east-1)
 
-✔ Service deployed to stack aws-python-project-dev (112s)
+✔ Service deployed to stack sls-lambdagrader (300s)
 
 functions:
-  hello: aws-python-project-dev-hello (1.5 kB)
+  hello: my-function1 (1.5 kB)
 ```
 
 ### Invocation
@@ -26,16 +32,7 @@ functions:
 After successful deployment, you can invoke the deployed function by using the following command:
 
 ```bash
-serverless invoke --function hello
-```
-
-Which should result in response similar to the following:
-
-```json
-{
-  "statusCode": 200,
-  "body": "{\"message\": \"Go Serverless v3.0! Your function executed successfully!\", \"input\": {}}"
-}
+serverless invoke --function sls_status_check
 ```
 
 ### Local development
@@ -43,16 +40,7 @@ Which should result in response similar to the following:
 You can invoke your function locally by using the following command:
 
 ```bash
-serverless invoke local --function hello
-```
-
-Which should result in response similar to the following:
-
-```
-{
-    "statusCode": 200,
-    "body": "{\"message\": \"Go Serverless v3.0! Your function executed successfully!\", \"input\": {}}"
-}
+serverless invoke local --function sls_status_check
 ```
 
 ### Docker requirements
@@ -60,3 +48,13 @@ Which should result in response similar to the following:
 LambdaGrader runs dockerized functions to support Python packages that exceed Lambda's file size limit of 50 MB.
 
 Docker is required to build the container while deploying the app. Ensure Docker is running locally.
+
+### Lambda filesystem
+
+The dockerized grading function will write temporary files to the filesystem. Writing to arbitrary paths will fail as Lambda only allows writes to the `/tmp` directory.
+
+### Lambda limits
+
+- Memory allocated to a lambda function cannot exceed 10,240 MB.
+- A lambda function cannot run for longer than 15 minutes (900 seconds).
+- Lambda includes a 512 MB temporary file system moutned to `/tmp`.

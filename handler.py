@@ -3,7 +3,7 @@ import json
 import boto3
 import os
 
-def hello(event, context):
+def sls_status_check(event, context):
     # LambdaContext Object: https://docs.aws.amazon.com/lambda/latest/dg/python-context.html
 
     bucket = os.environ["JUPYTER_NOTEBOOK_SUBMISSION_BUCKET"]

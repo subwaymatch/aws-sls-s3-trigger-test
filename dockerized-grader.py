@@ -30,18 +30,15 @@ def grade_S3_uploaded_notebook(event, context):
     print(message)
 
     # any directory other than /tmp is read-only in Lambda
-    local_notebook_path = os.path.join('/tmp', 'test.ipynb')
-    print(f'local_filename={local_notebook_path}')
+    submitted_notebook_filename = Path(key).name
+    local_notebook_path = os.path.join('/tmp', submitted_notebook_filename)
+    print(f'local_notebook_path={local_notebook_path}')
 
-    try:
-        # s3_client.download_file(bucket_name, 'OBJECT_NAME', 'FILE_NAME')
-        s3_client.download_file(submission_bucket_name, key, local_notebook_path)
-        print(f'download to {local_notebook_path} successful')
-        response = s3_client.upload_file(local_notebook_path, graded_bucket_name, key)
-        print(f'upload successful')
-    except ClientError as e:
-        logging.error(e)
-
+    # s3_client.download_file(bucket_name, 'OBJECT_NAME', 'FILE_NAME')
+    s3_client.download_file(submission_bucket_name, key, local_notebook_path)
+    print(f'download to {local_notebook_path} successful')
+    response = s3_client.upload_file(local_notebook_path, graded_bucket_name, key)
+    print(f'upload to {graded_bucket_name} bucket successful')
 
     print('=============================')
     nb = nbformat.read(local_notebook_path, as_version=4)
@@ -50,9 +47,6 @@ def grade_S3_uploaded_notebook(event, context):
     
     lambdagrader.preprocess_test_case_cells(nb)
     lambdagrader.add_grader_scripts(nb)
-
-    p = Path(local_notebook_path)
-    filestem = p.name
     
     print(f'Grading {local_notebook_path}')
     
@@ -67,7 +61,13 @@ def grade_S3_uploaded_notebook(event, context):
     converted_notebook_path = local_notebook_path.replace('.ipynb', '-graded.ipynb')
     print(f'converted_notebook_path={converted_notebook_path}')
     with open(converted_notebook_path, mode='w', encoding='utf-8') as f:
-        nbformat.write(nb, f)
+        nbformat.write(nb, f)   
+
+    s3_client.upload_file(
+        converted_notebook_path,
+        graded_bucket_name,
+        Path(converted_notebook_path).name
+    )
     
     # running the notebook will store the graded result to a JSON file
     # rename graded result JSON file
@@ -117,17 +117,28 @@ def grade_S3_uploaded_notebook(event, context):
     
     with open(extracted_code_path, "w", encoding="utf-8") as f:
         f.write(extracted_user_code)
+
+    s3_client.upload_file(
+        extracted_code_path,
+        graded_bucket_name,
+        Path(extracted_code_path).name
+    )
     
     # store graded result to HTML
-    filestem = Path(local_notebook_path).name
+    submitted_notebook_filename = Path(local_notebook_path).name
     graded_html_path = local_notebook_path.replace('.ipynb', '-graded.html')
     html_exporter = HTMLExporter()
     r = html_exporter.from_notebook_node(nb, resources={
-        'metadata': { 'name': filestem }
+        'metadata': { 'name': submitted_notebook_filename }
     })
     with open(graded_html_path, 'w', encoding="utf-8") as f:
         f.write(r[0])
-    s3_client.upload_file(graded_html_path, graded_bucket_name, 'graded-test.html')
+
+    s3_client.upload_file(
+        graded_html_path,
+        graded_bucket_name,
+        Path(graded_html_path).name
+    )
 
     print(f'Complete')
 

@@ -1,4 +1,4 @@
-service: aws-sls-s3-trigger-test
+service: sls-lambdagrader
 
 frameworkVersion: "3"
 
@@ -21,8 +21,8 @@ provider:
       Resource: "*"
 
 functions:
-  hello:
-    handler: handler.hello
+  sls_status_check:
+    handler: handler.sls_status_check
   grade_S3_uploaded_notebook:
     image:
       name: lambdagrader-image
