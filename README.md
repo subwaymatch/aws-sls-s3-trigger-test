@@ -1,6 +1,6 @@
 # LambdaGrader Serverless Framework Service
 
-This project is a serverless implementation of the [LambdaGrader](https://github.com/subwaymatch/lambdagrader) project.
+This project is a serverless implementation of [LambdaGrader](https://github.com/subwaymatch/lambdagrader) using the [Serverless Framework](https://www.serverless.com/).
 
 ## Overview
 
