@@ -6,6 +6,13 @@ This project is a serverless implementation of [LambdaGrader](https://github.com
 
 This project aims to build a Jupyter notebook autograder that runs in a serverless environment. A single lambda invocation grades one Jupyter notebook. Because AWS supports up to 1,000 concurrent executions by default, grading hundreds of submissions can be done simultaneously. The 1,000 concurrent execution limit can also be increased by request.
 
+Another goal of this project is to make it easy for instructors to author a Jupyter notebook for teaching.
+
+### Workflow
+
+![217484470-ab7406ce-bc0b-46a5-bbb2-17bb5fa8a2c7](https://user-images.githubusercontent.com/1064036/221693208-dce4db28-0865-4520-91f1-684c3954f84a.png)
+
+
 ## Usage
 
 ### Deployment
