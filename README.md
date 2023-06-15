@@ -17,7 +17,7 @@ Another goal of this project is to make it easy for instructors to author a Jupy
 
 ### Deployment
 
-In order to deploy this service, you need to run the following command:
+In order to deploy this service, run the following command:
 
 ```
 $ serverless deploy
